@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgntPro.ai — Agentic AI for Business Conversations</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFBFD;
+    --bg-white: #FFFFFF;
+    --bg-warm: #F5F3EF;
+    --bg-hero: linear-gradient(165deg, #FAFBFD 0%, #F0EDFF 40%, #E8F4FE 70%, #FAFBFD 100%);
+    --card-bg: #FFFFFF;
+    --card-border: #E8E5F0;
+    --card-hover: #F8F6FF;
+    --text-dark: #1A1035;
+    --text-body: #4A4362;
+    --text-muted: #8E87A5;
+    --accent: #6C3BF5;
+    --accent-light: #8B5CF6;
+    --accent-dark: #5025D1;
+    --accent-bg: #F0EDFF;
+    --accent-glow: rgba(108, 59, 245, 0.12);
+    --orange: #F97316;
+    --orange-bg: #FFF4EB;
+    --green: #10B981;
+    --green-bg: #ECFDF5;
+    --blue: #3B82F6;
+    --blue-bg: #EFF6FF;
+    --rose: #F43F5E;
+    --rose-bg: #FFF1F2;
+    --whatsapp: #25D366;
+    --rcs: #4285F4;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 3px rgba(26, 16, 53, 0.06);
+    --shadow-md: 0 4px 20px rgba(26, 16, 53, 0.08);
+    --shadow-lg: 0 12px 40px rgba(26, 16, 53, 0.1);
+    --shadow-xl: 0 20px 60px rgba(26, 16, 53, 0.14);
+    --font: 'Outfit', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0 48px;
+    height: 68px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(250, 251, 253, 0.85);
+    backdrop-filter: blur(20px) saturate(1.5);
+    border-bottom: 1px solid rgba(232, 229, 240, 0.6);
+    transition: box-shadow 0.3s;
+  }
+
+  nav.scrolled { box-shadow: var(--shadow-sm); }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .logo-text {
+    letter-spacing: -0.8px;
+    white-space: nowrap;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    box-shadow: 0 2px 12px rgba(108, 59, 245, 0.3);
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-body);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-links a:hover { background: var(--accent-bg); color: var(--accent); }
+  .nav-links a.active { color: var(--accent); background: var(--accent-bg); }
+
+  .nav-demo-btn {
+    background: var(--accent) !important;
+    color: white !important;
+    padding: 10px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 16px rgba(108, 59, 245, 0.35);
+    border: 2px solid var(--accent) !important;
+    animation: demoPulse 2.5s ease-in-out infinite;
+    margin-left: 8px;
+  }
+
+  .nav-demo-btn:hover {
+    background: var(--accent-dark) !important;
+    box-shadow: 0 4px 24px rgba(108, 59, 245, 0.45) !important;
+    transform: translateY(-1px);
+  }
+
+  @keyframes demoPulse {
+    0%, 100% { box-shadow: 0 2px 16px rgba(108, 59, 245, 0.35); }
+    50% { box-shadow: 0 4px 28px rgba(108, 59, 245, 0.55), 0 0 0 4px rgba(108, 59, 245, 0.1); }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    padding: 11px 28px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(108, 59, 245, 0.25);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 4px 20px rgba(108, 59, 245, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: var(--bg-white);
+    color: var(--text-dark);
+    padding: 11px 28px;
+    border-radius: 10px;
+    border: 1.5px solid var(--card-border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  .btn-large {
+    padding: 15px 36px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  /* === PAGES === */
+  .page {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .page.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 140px 24px 80px;
+    background: var(--bg-hero);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(108, 59, 245, 0.08) 0%, transparent 70%);
+    top: -100px;
+    right: -200px;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: var(--bg-white);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-body);
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-sm);
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-badge .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 5.5vw, 68px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    max-width: 780px;
+    margin-bottom: 22px;
+    color: var(--text-dark);
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--accent) 0%, #9333EA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero > p {
+    font-size: 18px;
+    color: var(--text-body);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    animation: fadeUp 0.7s ease 0.3s both;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .trust-row {
+    margin-top: 56px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    animation: fadeUp 0.7s ease 0.5s both;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .trust-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+  }
+
+  .trust-logos {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .trust-logo {
+    padding: 8px 20px;
+    background: var(--bg-white);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* === LIVE DEMO SECTION === */
+  .demo-section {
+    padding: 100px 24px;
+    background: var(--bg-white);
+  }
+
+  .demo-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .demo-left h2 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .demo-left > p {
+    font-size: 16px;
+    color: var(--text-body);
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .prompt-input-box {
+    background: var(--bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color 0.3s;
+  }
+
+  .prompt-input-box:focus-within { border-color: var(--accent); }
+
+  .prompt-input-box label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .prompt-input-box textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text-dark);
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    min-height: 90px;
+  }
+
+  .prompt-input-box textarea::placeholder { color: var(--text-muted); }
+
+  .prompt-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+  }
+
+  .channel-toggles {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ch-toggle {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1.5px solid var(--card-border);
+    background: var(--bg-white);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ch-toggle.active-wa { border-color: var(--whatsapp); background: rgba(37, 211, 102, 0.08); color: #1a8f4a; }
+  .ch-toggle.active-rcs { border-color: var(--rcs); background: rgba(66, 133, 244, 0.08); color: #2563EB; }
+
+  .ch-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .ch-dot.wa { background: var(--whatsapp); }
+  .ch-dot.rcs { background: var(--rcs); }
+
+  /* Phone mockup */
+  .phone-frame {
+    width: 320px;
+    margin: 0 auto;
+    background: #1A1035;
+    border-radius: 36px;
+    padding: 12px;
+    box-shadow: var(--shadow-xl), 0 0 0 1px rgba(108, 59, 245, 0.1);
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 120px;
+    height: 28px;
+    background: #1A1035;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  .phone-screen {
+    background: #FFFFFF;
+    border-radius: 26px;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phone-status-bar {
+    padding: 14px 20px 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .phone-chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px 12px;
+    border-bottom: 1px solid #F0EEF5;
+  }
+
+  .phone-back { font-size: 18px; color: var(--accent); cursor: pointer; }
+
+  .phone-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .phone-avatar.wa-bg { background: rgba(37, 211, 102, 0.15); }
+  .phone-avatar.rcs-bg { background: rgba(66, 133, 244, 0.15); }
+
+  .phone-agent-name { font-size: 14px; font-weight: 600; }
+  .phone-agent-status { font-size: 11px; color: var(--green); font-weight: 500; }
+
+  .phone-chat-body {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    background: #FAFBFD;
+  }
+
+  .bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(8px);
+    white-space: pre-line;
+  }
+
+  .bubble.show {
+    animation: bubbleIn 0.35s ease forwards;
+  }
+
+  @keyframes bubbleIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .bubble.user-bubble {
+    align-self: flex-end;
+    background: var(--accent);
+    color: white;
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+  }
+
+  .bubble.bot-bubble {
+    align-self: flex-start;
+    background: var(--bg-white);
+    color: var(--text-dark);
+    border-bottom-left-radius: 4px;
+    border: 1px solid #EEEAF5;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .typing-indicator {
+    align-self: flex-start;
+    padding: 10px 16px;
+    background: var(--bg-white);
+    border: 1px solid #EEEAF5;
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    display: none;
+  }
+
+  .typing-indicator.show { display: flex; gap: 4px; }
+
+  .typing-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: typingBounce 1.2s ease-in-out infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .phone-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid #F0EEF5;
+    background: white;
+  }
+
+  .phone-input-bar input {
+    flex: 1;
+    border: 1px solid #E8E5F0;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-family: var(--font);
+    outline: none;
+    background: #FAFBFD;
+  }
+
+  .phone-input-bar input:focus { border-color: var(--accent); }
+
+  .phone-send {
+    width: 34px;
+    height: 34px;
+    background: var(--accent);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .phone-send:hover { background: var(--accent-dark); }
+
+  /* === SECTIONS === */
+  section { padding: 100px 24px; }
+
+  .section-center { text-align: center; max-width: 1100px; margin: 0 auto; }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -1.2px;
+    line-height: 1.12;
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--text-body);
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto 56px;
+  }
+
+  /* === HOW IT WORKS === */
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .step-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    text-align: left;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .step-card:hover::after { transform: scaleX(1); }
+
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .step-num.s1 { background: var(--accent-bg); color: var(--accent); }
+  .step-num.s2 { background: var(--orange-bg); color: var(--orange); }
+  .step-num.s3 { background: var(--green-bg); color: var(--green); }
+
+  .step-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.2px; }
+  .step-card p { font-size: 14px; color: var(--text-body); line-height: 1.7; }
+
+  /* === FEATURES === */
+  .features-section { background: var(--bg-warm); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .feat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    transition: all 0.3s;
+  }
+
+  .feat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+  }
+
+  .feat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+
+  .feat-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .feat-card p { font-size: 13px; color: var(--text-body); line-height: 1.7; }
+
+  /* === CHANNELS === */
+  .channels-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .chan-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 36px 28px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .chan-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .chan-card.wa:hover { border-color: var(--whatsapp); }
+  .chan-card.rcs:hover { border-color: var(--rcs); }
+
+  .chan-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+
+  .chan-card.wa .chan-icon { background: rgba(37, 211, 102, 0.1); }
+  .chan-card.rcs .chan-icon { background: rgba(66, 133, 244, 0.1); }
+
+  .chan-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+  .chan-card p { font-size: 14px; color: var(--text-body); line-height: 1.6; margin-bottom: 20px; }
+
+  .chan-stat {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .chan-stat small {
+    display: block;
+    font-family: var(--font);
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+
+  /* === METRICS BAR === */
+  .metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .metric-item {
+    padding: 32px 24px;
+    text-align: center;
+    border-right: 1px solid var(--card-border);
+  }
+
+  .metric-item:last-child { border-right: none; }
+
+  .metric-val {
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .metric-lbl {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+
+  /* === USE CASES === */
+  .uc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .uc-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .uc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+
+  .uc-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .uc-card:nth-child(1) .uc-tag { background: var(--accent-bg); color: var(--accent); }
+  .uc-card:nth-child(2) .uc-tag { background: var(--orange-bg); color: var(--orange); }
+  .uc-card:nth-child(3) .uc-tag { background: var(--green-bg); color: var(--green); }
+  .uc-card:nth-child(4) .uc-tag { background: var(--blue-bg); color: var(--blue); }
+  .uc-card:nth-child(5) .uc-tag { background: var(--rose-bg); color: var(--rose); }
+  .uc-card:nth-child(6) .uc-tag { background: var(--accent-bg); color: var(--accent); }
+
+  .uc-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .uc-card p { font-size: 13px; color: var(--text-body); line-height: 1.7; }
+
+  /* === ABOUT US === */
+  .about-page { padding-top: 100px; }
+
+  .about-hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 56px;
+    align-items: start;
+    margin-top: 48px;
+  }
+
+  .founder-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    text-align: center;
+    position: sticky;
+    top: 100px;
+  }
+
+  .founder-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, #9333EA 100%);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    color: white;
+    font-weight: 700;
+    font-family: var(--mono);
+    box-shadow: 0 8px 24px rgba(108, 59, 245, 0.25);
+    letter-spacing: -1px;
+  }
+
+  .founder-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .founder-card .founder-role { font-size: 14px; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+
+  .founder-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .f-stat {
+    text-align: center;
+  }
+
+  .f-stat-val {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .f-stat-lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .founder-links {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .founder-links a {
+    padding: 8px 18px;
+    border: 1.5px solid var(--card-border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-body);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .founder-links a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+
+  .about-content h2 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    line-height: 1.15;
+  }
+
+  .about-content p {
+    font-size: 16px;
+    color: var(--text-body);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .about-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    color: var(--text-dark);
+  }
+
+  .highlight-box {
+    background: var(--accent-bg);
+    border: 1px solid rgba(108, 59, 245, 0.15);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .highlight-box p { color: var(--text-dark); margin-bottom: 0; }
+
+  .clients-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .client-chip {
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-body);
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .client-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .timeline {
+    margin: 24px 0;
+    padding-left: 24px;
+    border-left: 2px solid var(--accent-bg);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 24px;
+    padding-left: 20px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -29px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--accent-bg);
+  }
+
+  .timeline-item h4 { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+  .timeline-item p { font-size: 13px; color: var(--text-body); margin-top: 4px; line-height: 1.6; }
+  .timeline-item .tl-year { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 600; }
+
+  /* === CTA === */
+  .cta-section {
+    text-align: center;
+    background: var(--bg-hero);
+  }
+
+  .cta-section h2 {
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+
+  .cta-section > p, .cta-section .section-center > p {
+    font-size: 17px;
+    color: var(--text-body);
+    max-width: 480px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* === MODAL === */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 16, 53, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-header {
+    padding: 24px 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .modal-header h3 { font-size: 22px; font-weight: 700; }
+  .modal-header p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .modal-close:hover { background: var(--rose-bg); color: var(--rose); border-color: transparent; }
+
+  .modal-body { padding: 24px 28px 28px; }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text-dark);
+    outline: none;
+    background: var(--bg);
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+
+  .form-group input::placeholder { color: var(--text-muted); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 40px 28px;
+  }
+
+  .success-state.show { display: block; }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--green-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+  }
+
+  .success-state h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .success-state p { font-size: 14px; color: var(--text-body); line-height: 1.6; }
+
+  /* === FOOTER === */
+  footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--bg-white);
+  }
+
+  .footer-links { display: flex; gap: 24px; }
+
+  .footer-links a {
+    color: var(--text-body);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.vis { opacity: 1; transform: translateY(0); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links a:not(.nav-demo-btn) { display: none; }
+    .nav-demo-btn { font-size: 13px !important; padding: 8px 16px !important; }
+    section { padding: 70px 16px; }
+    .hero { padding: 120px 16px 60px; }
+    .steps-row, .features-grid, .uc-grid { grid-template-columns: 1fr; }
+    .channels-row { grid-template-columns: 1fr; }
+    .metrics-strip { grid-template-columns: 1fr 1fr; }
+    .metric-item { border-right: none; border-bottom: 1px solid var(--card-border); }
+    .demo-container { grid-template-columns: 1fr; }
+    .phone-frame { margin-top: 32px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .founder-card { position: static; }
+    .clients-grid { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="logo" onclick="showPage('home')">
+    <div class="logo-icon">A</div>
+    <div class="logo-text">AgntPro<span>.ai</span></div>
+  </a>
+  <div class="nav-links">
+    <a onclick="showPage('home')" class="nav-link active" data-page="home">Platform</a>
+    <a onclick="scrollToSection('how')" class="nav-link">How It Works</a>
+    <a onclick="scrollToSection('features')" class="nav-link">Features</a>
+    <a onclick="scrollToSection('usecases')" class="nav-link">Use Cases</a>
+    <a onclick="showPage('about')" class="nav-link" data-page="about">About Us</a>
+    <a class="nav-demo-btn" onclick="openModal()">🚀 Request Demo</a>
+  </div>
+</nav>
+
+<!-- ========== HOME PAGE ========== -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><div class="dot"></div> Now in Private Beta — 100+ Agents Deployed</div>
+    <h1>AI Agents That<br><span class="highlight">Talk Business</span></h1>
+    <p>Describe your agent in plain English. Deploy on WhatsApp &amp; RCS in minutes. No flowcharts, no code — just prompts that convert.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary btn-large" onclick="openModal()">Get Early Access →</button>
+      <button class="btn btn-secondary btn-large" onclick="scrollToSection('demo')">Try Live Demo ↓</button>
+    </div>
+    <div class="trust-row">
+      <div class="trust-label">Trusted by</div>
+      <div class="trust-logos">
+        <div class="trust-logo">Top 3 Indian Banks</div>
+        <div class="trust-logo">Leading Retailers</div>
+        <div class="trust-logo">Electronics Giants</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section style="padding: 60px 24px;">
+    <div class="metrics-strip reveal">
+      <div class="metric-item">
+        <div class="metric-val">100+</div>
+        <div class="metric-lbl">Agents deployed</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">89%</div>
+        <div class="metric-lbl">Auto-resolution rate</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">3 min</div>
+        <div class="metric-lbl">Avg. deploy time</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">40%</div>
+        <div class="metric-lbl">Cost reduction vs IVR</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO -->
+  <section class="demo-section" id="demo">
+    <div class="demo-container">
+      <div class="demo-left">
+        <div class="section-tag">Live Demo</div>
+        <h2>Write a prompt.<br>Watch it come alive.</h2>
+        <p>Type what your agent should do — we'll simulate the conversation on your chosen channel in real time.</p>
+        <div class="prompt-input-box">
+          <label>Your Agent Prompt</label>
+          <textarea id="promptInput" placeholder="e.g. You are a loan advisor for QuickBank. Help customers check eligibility, calculate EMI, and collect documents via WhatsApp.">You are QuickBank's loan advisor. Help users check home loan eligibility based on income, show EMI breakdowns, and collect PAN photos for KYC. Be friendly and RBI-compliant.</textarea>
+          <div class="prompt-actions">
+            <div class="channel-toggles">
+              <button class="ch-toggle active-wa" id="togWa" onclick="setChannel('wa')"><div class="ch-dot wa"></div> WhatsApp</button>
+              <button class="ch-toggle" id="togRcs" onclick="setChannel('rcs')"><div class="ch-dot rcs"></div> RCS</button>
+            </div>
+            <button class="btn btn-primary" onclick="runDemo()">Deploy Agent ▶</button>
+          </div>
+        </div>
+      </div>
+      <div class="demo-right">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-status-bar">
+              <span>9:41</span>
+              <span>●●●</span>
+            </div>
+            <div class="phone-chat-header">
+              <span class="phone-back">‹</span>
+              <div class="phone-avatar wa-bg" id="phoneAvatar">🏦</div>
+              <div>
+                <div class="phone-agent-name" id="phoneAgentName">QuickBank</div>
+                <div class="phone-agent-status">● Online</div>
+              </div>
+            </div>
+            <div class="phone-chat-body" id="phoneChat">
+              <div style="text-align:center; padding: 60px 20px; color: var(--text-muted); font-size: 14px;">
+                Write a prompt and hit <strong style="color:var(--accent);">Deploy Agent</strong> to see the magic ✨
+              </div>
+            </div>
+            <div class="phone-input-bar">
+              <input type="text" id="userMsgInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendUserMsg()">
+              <button class="phone-send" onclick="sendUserMsg()">↑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-center">
+      <div class="section-tag reveal">How It Works</div>
+      <div class="section-title reveal">Three steps to your<br>first AI agent</div>
+      <div class="section-desc reveal">No engineering team required. From idea to live agent in under 5 minutes.</div>
+    </div>
+    <div class="steps-row">
+      <div class="step-card reveal">
+        <div class="step-num s1">01</div>
+        <h3>Describe Your Agent</h3>
+        <p>Write a natural language prompt — the agent's role, tone, capabilities, and business rules. Like briefing a new team member.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num s2">02</div>
+        <h3>Connect Channels</h3>
+        <p>Link WhatsApp Business API or RCS in one click. We handle message routing, compliance, and session management.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num s3">03</div>
+        <h3>Go Live &amp; Iterate</h3>
+        <p>Deploy instantly. Monitor real conversations, refine prompts with analytics, and watch your agent improve over time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="section-center">
+      <div class="section-tag reveal">Platform Features</div>
+      <div class="section-title reveal">Enterprise-grade power,<br>startup-speed setup</div>
+      <div class="section-desc reveal">Everything you need to automate customer conversations at scale.</div>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon" style="background: var(--accent-bg);">🧠</div>
+        <h3>Prompt-Driven Agents</h3>
+        <p>Define behavior, personality, guardrails, and logic entirely through prompts. Update in seconds, no redeploy.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon" style="background: var(--orange-bg);">🔄</div>
+        <h3>Smart Human Handoff</h3>
+        <p>Seamless escalation when AI detects complexity or frustration. Full conversation context transfers automatically.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon" style="background: var(--green-bg);">📊</div>
+        <h3>Live Analytics</h3>
+        <p>Real-time dashboards for resolution rates, sentiment, drop-offs, and prompt performance scoring.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon" style="background: var(--blue-bg);">🔗</div>
+        <h3>API &amp; Webhooks</h3>
+        <p>Connect CRM, payment gateways, ERP — agents pull data and trigger workflows mid-conversation.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon" style="background: var(--rose-bg);">🛡️</div>
+        <h3>Compliance Built-In</h3>
+        <p>PII masking, consent management, audit trails. SOC 2 ready, GDPR and DPDP Act compliant.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon" style="background: var(--accent-bg);">🌐</div>
+        <h3>50+ Languages</h3>
+        <p>Auto-detect and switch languages mid-chat. Hindi, Tamil, Bengali, English — your agent speaks them all.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNELS -->
+  <section id="channels">
+    <div class="section-center">
+      <div class="section-tag reveal">Channels</div>
+      <div class="section-title reveal">Reach customers where<br>they already are</div>
+      <div class="section-desc reveal">Rich, interactive conversations on the world's most popular messaging platforms.</div>
+    </div>
+    <div class="channels-row">
+      <div class="chan-card wa reveal">
+        <div class="chan-icon">💬</div>
+        <h3>WhatsApp Business</h3>
+        <p>Rich media, list messages, quick replies, document sharing, and payment links — all within WhatsApp.</p>
+        <div class="chan-stat">2.3B+ <small>Monthly active users globally</small></div>
+      </div>
+      <div class="chan-card rcs reveal">
+        <div class="chan-icon">📱</div>
+        <h3>RCS Business Messaging</h3>
+        <p>App-like experiences in native SMS. Carousels, rich cards, branded profiles — no app download needed.</p>
+        <div class="chan-stat">1.2B+ <small>RCS-enabled devices worldwide</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section id="usecases" style="background: var(--bg-warm);">
+    <div class="section-center">
+      <div class="section-tag reveal">Industries</div>
+      <div class="section-title reveal">Built for industries that<br>run on conversations</div>
+      <div class="section-desc reveal">From lead gen to post-sale support — one platform, every vertical.</div>
+    </div>
+    <div class="uc-grid">
+      <div class="uc-card reveal" onclick="openModal()">
+        <div class="uc-tag">BFSI</div>
+        <h3>Loan &amp; Insurance Automation</h3>
+        <p>Eligibility checks, document collection, EMI calculators, claims filing, and payment reminders on WhatsApp.</p>
+      </div>
+      <div class="uc-card reveal" onclick="openModal()">
+        <div class="uc-tag">E-Commerce</div>
+        <h3>Order &amp; Returns</h3>
+        <p>Order tracking, return initiation, refund status, and personalized product recommendations conversationally.</p>
+      </div>
+      <div class="uc-card reveal" onclick="openModal()">
+        <div class="uc-tag">Healthcare</div>
+        <h3>Patient Engagement</h3>
+        <p>Appointment booking, symptom pre-screening, lab report delivery, and medication reminders.</p>
+      </div>
+      <div class="uc-card reveal" onclick="openModal()">
+        <div class="uc-tag">Government</div>
+        <h3>Citizen Services</h3>
+        <p>Scheme eligibility, application tracking, grievance redressal, and document submission via chat.</p>
+      </div>
+      <div class="uc-card reveal" onclick="openModal()">
+        <div class="uc-tag">Retail</div>
+        <h3>In-Store &amp; D2C</h3>
+        <p>Product discovery, store locator, loyalty programs, and post-purchase support on RCS &amp; WhatsApp.</p>
+      </div>
+      <div class="uc-card reveal" onclick="openModal()">
+        <div class="uc-tag">Electronics</div>
+        <h3>Warranty &amp; Support</h3>
+        <p>Product registration, warranty claims, troubleshooting guides, and service center scheduling.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="section-center">
+      <div class="section-tag reveal">Get Started</div>
+      <h2 class="reveal">Ready to deploy your<br>first AI agent?</h2>
+      <p class="reveal" style="font-size: 17px; color: var(--text-body); max-width: 480px; margin: 0 auto 36px; line-height: 1.7;">Join 100+ enterprise teams already automating conversations on WhatsApp and RCS.</p>
+      <div class="cta-btns reveal">
+        <button class="btn btn-primary btn-large" onclick="openModal()">Request Early Access →</button>
+        <button class="btn btn-secondary btn-large" onclick="showPage('about')">Meet the Founder</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== ABOUT PAGE ========== -->
+<div class="page" id="page-about">
+  <div class="about-page">
+    <div class="about-hero">
+      <div class="section-tag">About AgntPro.ai</div>
+      <div class="section-title" style="max-width: 600px;">Built by someone who's<br>lived the problem</div>
+
+      <div class="about-grid">
+        <!-- Founder Card -->
+        <div class="founder-card">
+          <div class="founder-avatar">ND</div>
+          <h3>Nishant Dwivedi</h3>
+          <div class="founder-role">Founder &amp; CEO, AgntPro.ai</div>
+          <p style="font-size: 13px; color: var(--text-body); line-height: 1.6;">
+            Solution Engineering leader with 7+ years building conversational AI and enterprise messaging solutions for India's largest organizations.
+          </p>
+          <div class="founder-stats">
+            <div class="f-stat">
+              <div class="f-stat-val">100+</div>
+              <div class="f-stat-lbl">Agents Built</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-val">7+</div>
+              <div class="f-stat-lbl">Years Experience</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-val">50+</div>
+              <div class="f-stat-lbl">Enterprise Clients</div>
+            </div>
+            <div class="f-stat">
+              <div class="f-stat-val">3</div>
+              <div class="f-stat-lbl">Verticals Deep</div>
+            </div>
+          </div>
+          <div class="founder-links">
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="mailto:nishant@agntpro.ai">Email</a>
+            <a href="#" onclick="openModal(); return false;">Book a Call</a>
+          </div>
+        </div>
+
+        <!-- About Content -->
+        <div class="about-content">
+          <h2>The story behind AgntPro.ai</h2>
+          <p>
+            After spending 7+ years in the trenches of enterprise messaging — deploying WhatsApp Business API, RCS, and voice solutions for India's top banks, leading retail chains, and electronics giants — I saw the same problem everywhere:
+          </p>
+
+          <div class="highlight-box">
+            <p><strong>Businesses spend months building conversation flows with drag-and-drop tools. By the time they go live, the use case has changed.</strong></p>
+          </div>
+
+          <p>
+            I've personally built and deployed <strong>more than 100 AI-powered conversational agents</strong> for some of India's largest companies — spanning BFSI, retail, and consumer electronics. These include top private sector banks, leading retail chains, and household electronics brands that millions of Indians interact with daily.
+          </p>
+
+          <p>
+            That experience taught me one thing: <strong>the bottleneck isn't the technology — it's the workflow.</strong> Flowchart-based builders are too rigid. Code-based solutions need engineering teams. What businesses actually need is a way to describe what they want in plain English and have an intelligent agent figure out the rest.
+          </p>
+
+          <p>That's exactly what AgntPro.ai does.</p>
+
+          <h3>Who I've worked with</h3>
+          <p>Over my career across Sinch, Decimal Technologies, and ICICI Bank, I've delivered solutions for:</p>
+
+          <div class="clients-grid">
+            <div class="client-chip">🏦 Top 3 Private Banks</div>
+            <div class="client-chip">🛒 Leading Retail Chains</div>
+            <div class="client-chip">📱 Electronics Majors</div>
+            <div class="client-chip">🏛️ Government Bodies</div>
+            <div class="client-chip">💳 Fintech Unicorns</div>
+            <div class="client-chip">🏥 Healthcare Networks</div>
+          </div>
+
+          <h3>My journey</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="tl-year">2026 — Present</div>
+              <h4>Founder &amp; CEO, AgntPro.ai</h4>
+              <p>Building the agentic AI platform that replaces flowcharts with prompts. Focusing on WhatsApp and RCS channels for Indian and global enterprises.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-year">2021 — 2026</div>
+              <h4>Senior Consultant — Solution Engineering, Sinch India</h4>
+              <p>Led presales and solution design for enterprise CPaaS — WhatsApp Business API, RCS, Voice, and AI Agents. Deployed 100+ agents across BFSI, Retail, and Public Sector. Managed key accounts including top Indian banks and retail giants.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-year">2019 — 2021</div>
+              <h4>Solution Engineer, Decimal Technologies</h4>
+              <p>Built digital lending and onboarding platforms for banks. Deep expertise in API integrations, CRM/ERP ecosystems, and compliance frameworks.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-year">2017 — 2019</div>
+              <h4>ICICI Bank</h4>
+              <p>Started in banking operations, developed deep understanding of BFSI workflows, customer journeys, and regulatory requirements — the foundation for everything that followed.</p>
+            </div>
+          </div>
+
+          <h3>The vision</h3>
+          <p>
+            AgntPro.ai is built on a simple belief: <strong>every business should be able to deploy a smart conversational agent as easily as writing an email.</strong> We're starting with WhatsApp and RCS — the channels India runs on — and expanding to every messaging platform businesses need.
+          </p>
+          <p>
+            We're currently in private beta with select enterprise partners. If you're interested in deploying AI agents on messaging channels, I'd love to talk.
+          </p>
+
+          <div style="margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-large" onclick="openModal()">Request a Demo →</button>
+            <button class="btn btn-secondary btn-large" onclick="showPage('home')">← Back to Platform</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DEMO MODAL ========== -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div id="modalForm">
+      <div class="modal-header">
+        <div>
+          <h3>Request a Demo</h3>
+          <p>We'll reach out within 24 hours</p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="fName" placeholder="Rahul">
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="lName" placeholder="Sharma">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Work Email *</label>
+          <input type="email" id="fEmail" placeholder="rahul@company.com">
+        </div>
+        <div class="form-group">
+          <label>Company Name *</label>
+          <input type="text" id="fCompany" placeholder="Your Company">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Industry</label>
+            <select id="fIndustry">
+              <option value="">Select...</option>
+              <option>BFSI</option>
+              <option>E-Commerce / Retail</option>
+              <option>Healthcare</option>
+              <option>EdTech</option>
+              <option>Government</option>
+              <option>Electronics / Consumer</option>
+              <option>Real Estate</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Channel Interest</label>
+            <select id="fChannel">
+              <option value="">Select...</option>
+              <option>WhatsApp</option>
+              <option>RCS</option>
+              <option>Both</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-large form-submit" onclick="submitForm()">Submit Request →</button>
+      </div>
+    </div>
+    <div class="success-state" id="successState">
+      <div class="success-icon">✓</div>
+      <h3>You're on the list!</h3>
+      <p>Thanks for your interest in AgntPro.ai. Our team will reach out within 24 hours to schedule your personalized demo.</p>
+      <button class="btn btn-secondary" style="margin-top: 20px;" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a class="logo" onclick="showPage('home')" style="font-size: 16px;">
+    <div class="logo-icon" style="width: 24px; height: 24px; font-size: 11px;">A</div>
+    <div class="logo-text">AgntPro<span>.ai</span></div>
+  </a>
+  <div class="footer-links">
+    <a href="#" onclick="showPage('about'); return false;">About</a>
+    <a href="#" onclick="openModal(); return false;">Contact</a>
+    <a href="#" onclick="scrollToSection('features'); return false;">Features</a>
+    <a href="#" onclick="openModal(); return false;">Request Demo</a>
+  </div>
+  <div>© 2026 AgntPro.ai. All rights reserved.</div>
+</footer>
+
+<script>
+  // === NAV SCROLL ===
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // === SCROLL REVEAL ===
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('vis'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  function initReveals() {
+    document.querySelectorAll('.reveal').forEach(el => {
+      if (!el.classList.contains('vis')) obs.observe(el);
+    });
+  }
+  initReveals();
+
+  // === PAGE SWITCHING ===
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+    if (activeLink) activeLink.classList.add('active');
+
+    setTimeout(initReveals, 100);
+  }
+
+  function scrollToSection(id) {
+    showPage('home');
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  }
+
+  // === MODAL ===
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('modalForm').style.display = 'block';
+    document.getElementById('successState').classList.remove('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function submitForm() {
+    const name = document.getElementById('fName').value;
+    const email = document.getElementById('fEmail').value;
+    if (!name || !email) {
+      alert('Please fill in at least your name and email.');
+      return;
+    }
+    document.getElementById('modalForm').style.display = 'none';
+    document.getElementById('successState').classList.add('show');
+  }
+
+  // === DEMO CHAT ===
+  var currentCh = 'wa';
+  var demoConvos = {
+    wa: [
+      { from: 'user', text: 'Hi, I want to check my home loan eligibility' },
+      { from: 'bot', text: "Welcome to QuickBank!\n\nI can check your eligibility in 2 minutes. What's your net monthly income?" },
+      { from: 'user', text: '85,000 per month' },
+      { from: 'bot', text: "Great! Based on 85K/month, you may be eligible for:\n\nUp to 45,00,000\n8.5% p.a. interest rate\nEMI: ~38,700/month (20 yrs)\n\nWant to start a full application?" },
+      { from: 'user', text: 'Yes please!' },
+      { from: 'bot', text: "Perfect! Please share a photo of your PAN card to begin KYC.\n\nI'll verify it instantly and we can proceed to document upload." }
+    ],
+    rcs: [
+      { from: 'user', text: 'Show me your insurance plans' },
+      { from: 'bot', text: "Here are our top plans:\n\nEssential - 499/mo\nPremium - 899/mo\nFamily - 1,299/mo\n\nWhich one interests you?" },
+      { from: 'user', text: 'Premium sounds good' },
+      { from: 'bot', text: "Premium Plan includes:\n- 10L sum insured\n- Cashless at 8,000+ hospitals\n- Zero waiting for accidents\n- Free annual health check\n\nReady to enroll? It takes 3 min!" },
+      { from: 'user', text: "Let's do it" },
+      { from: 'bot', text: "I'll need your Aadhaar for instant KYC. This is 100% secure and encrypted.\n\nPlease type your 12-digit Aadhaar number." }
+    ]
+  };
+
+  var chatActive = false;
+
+  function setChannel(ch) {
+    currentCh = ch;
+    var togWa = document.getElementById('togWa');
+    var togRcs = document.getElementById('togRcs');
+    if (togWa) togWa.className = (ch === 'wa') ? 'ch-toggle active-wa' : 'ch-toggle';
+    if (togRcs) togRcs.className = (ch === 'rcs') ? 'ch-toggle active-rcs' : 'ch-toggle';
+
+    var avatar = document.getElementById('phoneAvatar');
+    if (avatar) {
+      avatar.className = (ch === 'wa') ? 'phone-avatar wa-bg' : 'phone-avatar rcs-bg';
+      avatar.textContent = (ch === 'wa') ? '🏦' : '🛡';
+    }
+    var agentName = document.getElementById('phoneAgentName');
+    if (agentName) agentName.textContent = (ch === 'wa') ? 'QuickBank' : 'SecureLife';
+
+    runDemo();
+  }
+
+  function getOrCreateTyping(body) {
+    var el = document.getElementById('typingDots');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'typingDots';
+      el.className = 'typing-indicator';
+      el.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      body.appendChild(el);
+    }
+    return el;
+  }
+
+  function runDemo() {
+    var body = document.getElementById('phoneChat');
+    if (!body) return;
+    body.innerHTML = '';
+    getOrCreateTyping(body);
+    chatActive = true;
+    playNext(demoConvos[currentCh], body, 0);
+  }
+
+  function playNext(convo, body, idx) {
+    if (idx >= convo.length) { chatActive = false; return; }
+    var msg = convo[idx];
+    var typing = getOrCreateTyping(body);
+
+    if (msg.from === 'bot') {
+      typing.classList.add('show');
+      body.scrollTop = body.scrollHeight;
+      setTimeout(function() {
+        typing.classList.remove('show');
+        addBubble(body, msg.text, 'bot-bubble');
+        setTimeout(function() { playNext(convo, body, idx + 1); }, 600);
+      }, 900);
+    } else {
+      addBubble(body, msg.text, 'user-bubble');
+      setTimeout(function() { playNext(convo, body, idx + 1); }, 500);
+    }
+  }
+
+  function addBubble(container, text, cls) {
+    var div = document.createElement('div');
+    div.className = 'bubble ' + cls;
+    div.textContent = text;
+    var typing = document.getElementById('typingDots');
+    if (typing && typing.parentNode === container) {
+      container.insertBefore(div, typing);
+    } else {
+      container.appendChild(div);
+    }
+    requestAnimationFrame(function() { div.classList.add('show'); });
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function sendUserMsg() {
+    var input = document.getElementById('userMsgInput');
+    if (!input) return;
+    var text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+
+    var body = document.getElementById('phoneChat');
+    if (!body) return;
+    getOrCreateTyping(body);
+    addBubble(body, text, 'user-bubble');
+
+    var typing = getOrCreateTyping(body);
+    typing.classList.add('show');
+    body.scrollTop = body.scrollHeight;
+
+    var replies = [
+      "I'd be happy to help with that! Let me pull up your details. One moment please...",
+      "Great question! Based on our records, I can assist you right away.",
+      "Absolutely! I've processed your request. Is there anything else I can help with?",
+      "Thanks for sharing that. Let me verify this information and get back to you.",
+      "I understand. Let me check the best options available for you based on your profile."
+    ];
+
+    setTimeout(function() {
+      typing.classList.remove('show');
+      var reply = replies[Math.floor(Math.random() * replies.length)];
+      addBubble(body, reply, 'bot-bubble');
+    }, 1200);
+  }
+</script>
+
+</body>
+</html>
